@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Created by jliu on 22/07/15.
@@ -55,6 +57,9 @@ public class DomainPageObjects {
         passwordInput.sendKeys(passwd);
         passwordConfirm.sendKeys(passwd);
         confirmButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        WebElement successAlert = wait.until(ExpectedConditions
+                .visibilityOf(driver.findElement(By.className("alert-success"))));
 
     }
 

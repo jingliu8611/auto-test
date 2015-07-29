@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Created by jliu on 22/07/15.
@@ -89,10 +91,15 @@ public class NavigationBarObjects {
 
     public void signOut() {
 
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        WebElement successAlert = wait.until(ExpectedConditions
+                .visibilityOf(driver.findElement(By.id("header_a_navUser"))));
         driver.findElement(By.id("header_a_navUser"));
         Actions action = new Actions(driver);
         action.moveToElement(userIcon).perform();
         driver.findElement(By.id("header_li_logOut"));
+        successAlert = wait.until(ExpectedConditions
+                .visibilityOf(driver.findElement(By.id("header_li_logOut"))));
         signOut.click();
 
     }

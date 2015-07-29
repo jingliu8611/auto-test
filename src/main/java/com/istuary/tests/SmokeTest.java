@@ -90,7 +90,7 @@ public class SmokeTest {
     }
 
     @Test
-    public void createAdmin() {
+    public void createAdmin() throws InterruptedException {
 
         System.out.println("This is createAdmin");
 //        driver.get("https://10.0.10.58/login");
@@ -99,19 +99,25 @@ public class SmokeTest {
         loginPage.login(username, password);
         DomainPageObjects domainPage = new DomainPageObjects(driver);
         domainPage.enterAdminPassword(adminPass);
+
+//        driver.findElement(By.className("alert-success")).wait(3000);
+//        Thread.sleep(1000);
+//        driver.findElement(By.className("close")).click();
         String result = driver.findElement(By.className("alert-success")).getCssValue("display");
+//        driver.findElement(By.className("close")).wait(1000);
         Assert.assertEquals(result, "block", "Admin Created");
 //        Assert.assertEquals(driver.findElement(By.className("alert-success")).getCssValue("display"), "block");
 //        Assert.assertTrue(domainPage.al);
         NavigationBarObjects navigationBar = new NavigationBarObjects(driver);
         navigationBar.signOut();
+//        driver.findElement(By.id("login_button_loginButton")).wait(3000);
         Assert.assertEquals(driver.findElement(By.id("login_button_loginButton")).getCssValue("display"), "block", "Root logged out");
 
     }
 
 //    @Test(dependsOnMethods = { "createAdmin" })
     @Test
-    public void uploadTopo() {
+    public void uploadTopo() throws InterruptedException {
 
         System.out.println("This is uploadTopo");
 //        driver.get("https://10.0.10.58/login");
@@ -124,6 +130,8 @@ public class SmokeTest {
         TopoPageObjects topoPage = new TopoPageObjects(driver);
 //        topoPage.uploadTopo("/resources/data/58.zip");
         topoPage.uploadTopo(topoFilePath);
+//        driver.findElement(By.className("alert-success")).wait(3000);
+//        Thread.sleep(1000);
         Assert.assertEquals(driver.findElement(By.className("alert-success")).getCssValue("display"), "block", "Topo Uploaded");
 
     }
