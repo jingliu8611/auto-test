@@ -6,7 +6,6 @@ import com.istuary.controllers.NavigationBarObjects;
 import com.istuary.controllers.TopoPageObjects;
 import com.istuary.utilities.ExcelUtil;
 import com.istuary.utilities.WebDriverUtil;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -90,49 +89,35 @@ public class SmokeTest {
     }
 
     @Test
-    public void createAdmin() throws InterruptedException {
+    public void createAdmin() {
 
         System.out.println("This is createAdmin");
-//        driver.get("https://10.0.10.58/login");
         driver.get(testServerIp);
         LoginPageObjects loginPage = new LoginPageObjects(driver);
         loginPage.login(username, password);
         DomainPageObjects domainPage = new DomainPageObjects(driver);
         domainPage.enterAdminPassword(adminPass);
-
-//        driver.findElement(By.className("alert-success")).wait(3000);
-//        Thread.sleep(1000);
-//        driver.findElement(By.className("close")).click();
-        String result = driver.findElement(By.className("alert-success")).getCssValue("display");
-//        driver.findElement(By.className("close")).wait(1000);
-        Assert.assertEquals(result, "block", "Admin Created");
-//        Assert.assertEquals(driver.findElement(By.className("alert-success")).getCssValue("display"), "block");
-//        Assert.assertTrue(domainPage.al);
         NavigationBarObjects navigationBar = new NavigationBarObjects(driver);
+        Assert.assertTrue(navigationBar.isActionSuccess(), "Admin Created");
+        navigationBar.closeAlert();
         navigationBar.signOut();
-//        driver.findElement(By.id("login_button_loginButton")).wait(3000);
-        Assert.assertEquals(driver.findElement(By.id("login_button_loginButton")).getCssValue("display"), "block", "Root logged out");
 
     }
 
 //    @Test(dependsOnMethods = { "createAdmin" })
     @Test
-    public void uploadTopo() throws InterruptedException {
+    public void uploadTopo() {
 
         System.out.println("This is uploadTopo");
-//        driver.get("https://10.0.10.58/login");
         driver.get(testServerIp);
         LoginPageObjects loginPage = new LoginPageObjects(driver);
-//        loginPage.login(adminName, "admin12345");
         loginPage.login(adminName, adminPass);
         NavigationBarObjects navigationBar = new NavigationBarObjects(driver);
         navigationBar.goToTopology();
         TopoPageObjects topoPage = new TopoPageObjects(driver);
-//        topoPage.uploadTopo("/resources/data/58.zip");
         topoPage.uploadTopo(topoFilePath);
-//        driver.findElement(By.className("alert-success")).wait(3000);
-//        Thread.sleep(1000);
-        Assert.assertEquals(driver.findElement(By.className("alert-success")).getCssValue("display"), "block", "Topo Uploaded");
+        Assert.assertTrue(navigationBar.isActionSuccess(), "Topo Uploaded");
+        navigationBar.closeAlert();
 
     }
 

@@ -15,10 +15,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class NavigationBarObjects {
 
     private WebDriver driver;
+    private WebDriverWait wait;
+    private int DEFAULT_DELAY = 15;
 
     public NavigationBarObjects(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, DEFAULT_DELAY);
     }
 
 //    @FindBy(css = "a[href='/monitor/overview']")
@@ -55,23 +58,32 @@ public class NavigationBarObjects {
     @FindBy(xpath = "//li[@id='header_li_logOut']/a[1]")
     private WebElement signOut;
 
+//    @FindBy(className = "alert-success")
+//    public WebElement successAlert;
+
+    @FindBy(className = "close")
+    public WebElement alertCloseBtn;
+
     public void goToTopology() {
 
-        driver.findElement(By.id("header_a_navUser"));
+//        driver.findElement(By.id("header_a_navUser"));
+        wait.until(ExpectedConditions.visibilityOf(topologyTab));
         topologyTab.click();
 
     }
 
     public void goToMonitor() {
 
-        driver.findElement(By.id("header_a_navUser"));
+//        driver.findElement(By.id("header_a_navUser"));
+        wait.until(ExpectedConditions.visibilityOf(monitorTab));
         monitorTab.click();
 
     }
 
     public void goToRule() {
 
-        driver.findElement(By.id("header_a_navUser"));
+//        driver.findElement(By.id("header_a_navUser"));
+        wait.until(ExpectedConditions.visibilityOf(ruleTab));
         ruleTab.click();
 
     }
@@ -91,17 +103,32 @@ public class NavigationBarObjects {
 
     public void signOut() {
 
-        WebDriverWait wait = new WebDriverWait(driver, 100);
-        WebElement successAlert = wait.until(ExpectedConditions
-                .visibilityOf(driver.findElement(By.id("header_a_navUser"))));
-        driver.findElement(By.id("header_a_navUser"));
+        wait.until(ExpectedConditions.visibilityOf(userIcon));
         Actions action = new Actions(driver);
         action.moveToElement(userIcon).perform();
-        driver.findElement(By.id("header_li_logOut"));
-        successAlert = wait.until(ExpectedConditions
-                .visibilityOf(driver.findElement(By.id("header_li_logOut"))));
+        wait.until(ExpectedConditions.visibilityOf(signOut));
         signOut.click();
+//        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("header_a_navUser")));
 
+    }
+
+    public void closeAlert() {
+        wait.until(ExpectedConditions.visibilityOf(alertCloseBtn));
+        alertCloseBtn.click();
+    }
+
+    public boolean isActionSuccess() {
+
+        try {
+            String result = driver.findElement(By.className("alert-success")).getCssValue("display");
+            if (result.equals("block")) {
+                return true;
+            }
+            return false;
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public void testFunc() throws InterruptedException {

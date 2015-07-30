@@ -39,14 +39,6 @@ public class DomainPageObjects {
     @FindBy(id = "domain_button_editUser")
     private WebElement editButton;
 
-    @FindBy(id = "header_a_navUser")
-    private WebElement userIcon;
-
-//    @FindBy(className = "fa-user")
-//    public WebElement userIcon;
-//
-//    @FindBy(className = "fa-sign-out")
-//    public WebElement signOut;
 
     public void enterAdminPassword(String passwd) {
 
@@ -57,19 +49,10 @@ public class DomainPageObjects {
         passwordInput.sendKeys(passwd);
         passwordConfirm.sendKeys(passwd);
         confirmButton.click();
-        WebDriverWait wait = new WebDriverWait(driver, 100);
-        WebElement successAlert = wait.until(ExpectedConditions
-                .visibilityOf(driver.findElement(By.className("alert-success"))));
+//        WebDriverWait wait = new WebDriverWait(driver, 100);
+//        WebElement successAlert = wait.until(ExpectedConditions
+//                .visibilityOf(driver.findElement(By.className("alert-success"))));
 
     }
-
-//    public void signOut() throws InterruptedException {
-//        Thread.sleep(2000);
-//        Actions action = new Actions(driver);
-//        action.moveToElement(userIcon).perform();
-//        Thread.sleep(2000);
-//        signOut.click();
-//        Thread.sleep(2000);
-//    }
 
 }
