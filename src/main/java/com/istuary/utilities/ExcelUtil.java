@@ -17,6 +17,8 @@ public class ExcelUtil {
     static Workbook wrkbook =null;
     static Hashtable dict= new Hashtable();
     static Hashtable flaggedMethod = new Hashtable();
+    static Hashtable flaggedTest = new Hashtable();
+    static Hashtable flaggedClass = new Hashtable();
 
     //Create a Constructor
     public ExcelUtil(String ExcelSheetPath) throws BiffException, IOException
@@ -70,7 +72,7 @@ public class ExcelUtil {
         }
     }
 
-    public static Hashtable getFlaggedMethods(String colName) {
+    public static Hashtable getFlaggedMethodsBk(String colName) {
 
         try{
             int methodCount = 1;
@@ -87,5 +89,78 @@ public class ExcelUtil {
         return flaggedMethod;
 
     }
+
+    public static Hashtable getFlaggedTests() {
+
+        try{
+            int testCnt = 1;
+            flaggedTest.clear();
+            for (int row = 0; row < rowCount(); row++) {
+                if (readCell("Flag", row).equals("Y") && !readCell("Test", row).equals("")) {
+                    flaggedTest.put(testCnt, readCell("Test", row));
+                    testCnt++;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flaggedTest;
+
+    }
+
+    public static Hashtable getFlaggedClasses(String testName) {
+        try {
+            int classCnt = 1;
+            int rowCnt = rowCount();
+            flaggedClass.clear();
+            for (int row = 0; row < rowCnt; row++) {
+                if (readCell("Test", row).equals(testName)) {
+                    for (int classRow = row + 1; classRow < rowCnt; classRow++) {
+                        if (!readCell("Test", classRow).equals("")) {
+                            break;
+                        } else if (readCell("Flag", classRow).equals("Y") && !readCell("Class", classRow).equals("")) {
+                            flaggedClass.put(classCnt, readCell("Class", classRow));
+                            classCnt++;
+                        }
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flaggedClass;
+    }
+
+    public static Hashtable getFlaggedMethods(String testName, String className) {
+        try {
+            int methodCnt = 1;
+            int rowCnt = rowCount();
+            flaggedMethod.clear();
+            for (int row = 0; row < rowCnt; row++) {
+                if (readCell("Test", row).equals(testName)) {
+                    for (int classRow = row + 1; classRow < rowCnt; classRow++) {
+                        if (readCell("Class", classRow).equals(className)) {
+                            for (int methodRow = classRow + 1; methodRow < rowCnt; methodRow++){
+                                if (!readCell("Class", methodRow).equals("") || !readCell("Test", methodRow).equals("")) {
+                                    break;
+                                } else if (readCell("Flag", methodRow).equals("Y")) {
+                                    flaggedMethod.put(methodCnt, readCell("Function", methodRow));
+                                    methodCnt++;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flaggedMethod;
+    }
+
 
 }
