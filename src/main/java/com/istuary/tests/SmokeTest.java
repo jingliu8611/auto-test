@@ -42,8 +42,6 @@ public class SmokeTest {
         adminName = ExcelUtil.readCell("AdminName", 1);
         adminPass = ExcelUtil.readCell("AdminPass", 1);
 
-//        driver = WebDriverUtil.createChrome();
-//        driver = WebDriverUtil.createFF();
         if (browser.equals("Chrome")) {
             driver = WebDriverUtil.createChrome();
         }else if (browser.equals("FireFox")) {

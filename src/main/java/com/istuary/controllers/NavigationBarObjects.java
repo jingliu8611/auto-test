@@ -108,7 +108,6 @@ public class NavigationBarObjects {
         action.moveToElement(userIcon).perform();
         wait.until(ExpectedConditions.visibilityOf(signOut));
         signOut.click();
-//        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("header_a_navUser")));
 
     }
 

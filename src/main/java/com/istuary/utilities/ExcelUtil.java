@@ -20,18 +20,15 @@ public class ExcelUtil {
     static Hashtable flaggedTest = new Hashtable();
     static Hashtable flaggedClass = new Hashtable();
 
-    //Create a Constructor
     public ExcelUtil(String ExcelSheetPath) throws BiffException, IOException
     {
-        //Initialize
+
         wrkbook = Workbook.getWorkbook(new File(ExcelSheetPath));
-        //For Demo purpose the excel sheet path is hardcoded, but not recommended :)
         wrksheet = wrkbook.getSheet("Sheet1");
 
         columnDictionary();
     }
 
-    //Returns the Number of Rows
     public static int rowCount()
     {
         return wrksheet.getRows();
@@ -43,23 +40,19 @@ public class ExcelUtil {
 
     }
 
-    //Returns the Cell value by taking row and Column values as argument
     public static String readCell(int column,int row)
     {
         return wrksheet.getCell(column,row).getContents();
     }
 
-    //Create Column Dictionary to hold all the Column Names
     public static void columnDictionary()
     {
-        //Iterate through all the columns in the Excel sheet and store the value in Hashtable
         for(int col=0;col < wrksheet.getColumns();col++)
         {
             dict.put(readCell(col,0), col);
         }
     }
 
-    //Read Column Names
     public static int getCell(String colName)
     {
         try {

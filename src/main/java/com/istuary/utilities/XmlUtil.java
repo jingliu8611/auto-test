@@ -32,25 +32,12 @@ public class XmlUtil {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
 
-//            excel.getFlaggedMethods("Flag");
             excel.getFlaggedTests();
 
-//            int totalNoOfElementsFlaggedToRun = excel.flaggedMethod.size();
             int totalNoOfTestToRun = excel.flaggedTest.size();
 
             Element rootElementSuite = document.createElement("suite");
             rootElementSuite.setAttribute("name", "SeleniumJavaFramework");
-
-//            for (int elementCounter = 1; elementCounter <= totalNoOfElementsFlaggedToRun; elementCounter++) {
-//                Element rootElementParameter = document.createElement("parameter");
-//
-//                String[] flagElement = excel.flaggedMethod.get(elementCounter).toString().split(";");
-//
-//                rootElementParameter.setAttribute("name", flagElement[0]);
-//                rootElementParameter.setAttribute("value", flagElement[1]);
-//                rootElementSuite.appendChild(rootElementParameter);
-//
-//            }
 
             for (int testCnt = 1; testCnt <= totalNoOfTestToRun; testCnt++) {
                 Element rootElementTest = document.createElement("test");
@@ -86,31 +73,7 @@ public class XmlUtil {
 
             }
 
-//            Element rootElementTest = document.createElement("test");
-//            Element rootElementClass = document.createElement("classes");
-//            Element childElementClass = document.createElement("class");
-
-//            childElementClass.setAttribute("name", "com.istuary.tests.SmokeTest");
-
-//            Element rootElementGroups = document.createElement("methods");
-
-//            rootElementSuite.setAttribute("name", "SeleniumJavaFramework");
-//            rootElementTest.setAttribute("name", "testing");
-
-//            rootElementSuite.appendChild(rootElementTest);
-//            rootElementTest.appendChild(rootElementClass);
-//            rootElementClass.appendChild(childElementClass);
-//            childElementClass.appendChild(rootElementGroups);
             document.appendChild(rootElementSuite);
-
-//            for (int elementCounter = 1; elementCounter <= totalNoOfElementsFlaggedToRun; elementCounter++) {
-//
-//                String element = "include";
-//                Element em = document.createElement(element);
-//                String[] flagElement = excel.flaggedMethod.get(elementCounter).toString().split(";");
-//                em.setAttribute("name", flagElement[0]);
-//                rootElementGroups.appendChild(em);
-//            }
 
             FileWriter fstream = new FileWriter("resources//testng.xml");
             BufferedWriter out = new BufferedWriter(fstream);
