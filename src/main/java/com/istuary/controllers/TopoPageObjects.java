@@ -25,13 +25,13 @@ public class TopoPageObjects {
         this.wait = new WebDriverWait(driver, DEFAULT_DELAY);
     }
 
-    @FindBy(id = "topology/singleTopo_file_topologySelector")
+    @FindBy(id = "topology-singleTopo_file_topologySelector")
     private WebElement uploadFirstTopoBtn;
 
-    @FindBy(id = "topology/singleTopo_button_uploadTopologyModal")
+    @FindBy(id = "topology-singleTopo_button_uploadTopologyModal")
     private WebElement uploadBtn;
 
-    @FindBy(id = "topology/singleTopo_button_downloadTopo")
+    @FindBy(id = "topology-singleTopo_button_downloadTopo")
     private WebElement downloadBtn;
 
     @FindBy(id = "topologySelector")

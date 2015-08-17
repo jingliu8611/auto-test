@@ -39,6 +39,9 @@ public class NavigationBarObjects {
     @FindBy(xpath = "//li[@id='header_li_rule']/a[1]")
     private WebElement ruleTab;
 
+    @FindBy(id = "rule_a_ipmac")
+    private WebElement ipMacTab;
+
 //    @FindBy(css = "a[href='/monitor/signature/?tab=policyManagement']")
 //    private WebElement policyManagementTab;
 //
@@ -85,6 +88,15 @@ public class NavigationBarObjects {
 //        driver.findElement(By.id("header_a_navUser"));
         wait.until(ExpectedConditions.visibilityOf(ruleTab));
         ruleTab.click();
+
+    }
+
+    public void goToIPMAC() {
+
+        wait.until(ExpectedConditions.visibilityOf(ruleTab));
+        ruleTab.click();
+        wait.until(ExpectedConditions.visibilityOf(ipMacTab));
+        ipMacTab.click();
 
     }
 

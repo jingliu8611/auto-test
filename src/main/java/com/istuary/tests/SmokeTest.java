@@ -1,9 +1,6 @@
 package com.istuary.tests;
 
-import com.istuary.controllers.DomainPageObjects;
-import com.istuary.controllers.LoginPageObjects;
-import com.istuary.controllers.NavigationBarObjects;
-import com.istuary.controllers.TopoPageObjects;
+import com.istuary.controllers.*;
 import com.istuary.utilities.ExcelUtil;
 import com.istuary.utilities.WebDriverUtil;
 import org.openqa.selenium.WebDriver;
@@ -121,14 +118,30 @@ public class SmokeTest {
 
 //    @Test(dependsOnMethods = { "uploadTopo" })
     @Test
-    public void deploySignature() throws InterruptedException {
+    public void deploySignature() {
 
         System.out.println("This is deploySignature");
         NavigationBarObjects navigationBar = new NavigationBarObjects(driver);
         navigationBar.goToRule();
+        BlacklistPageObjects blacklistPage = new BlacklistPageObjects(driver);
+        blacklistPage.deployBlacklistRule();
+        Assert.assertTrue(navigationBar.isActionSuccess(), "Blacklist Deployed");
+        navigationBar.closeAlert();
+
+    }
+
+    @Test
+    public void deployIPMACBinding () throws InterruptedException {
+
+        System.out.println("This is deployIPMACBinding");
+        NavigationBarObjects navigationBar = new NavigationBarObjects(driver);
+        navigationBar.goToIPMAC();
+        IPMACBindingPageObjects ipmacBindingPage = new IPMACBindingPageObjects(driver);
+        ipmacBindingPage.deployIPMACBindingRule();
+        Assert.assertTrue(navigationBar.isActionSuccess(), "IpMacBindingRule Deployed");
+        navigationBar.closeAlert();
 
         Thread.sleep(3000);
-
     }
 
 }
