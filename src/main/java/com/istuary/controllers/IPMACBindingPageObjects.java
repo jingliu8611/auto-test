@@ -37,7 +37,7 @@ public class IPMACBindingPageObjects {
     @FindBy(id = "rule-ipmac_button_deploy")
     private WebElement deployBtn;
 
-    @FindBy(id = "rule-ipmac_button_confirmDeploy")
+    @FindBy(id = "rule-whiteList-editor_button_deployConfirm")
     private WebElement confirmDeployBtn;
 
     public void deployIPMACBindingRule() {
@@ -47,7 +47,7 @@ public class IPMACBindingPageObjects {
         ipMacEditBtn.click();
         wait.until(ExpectedConditions.visibilityOf(macInputBox));
         if (macInputBox.getText().equals("")) {
-            macInputBox.sendKeys(testMac);
+//            macInputBox.sendKeys(testMac);
             System.out.println("Enter Testing Mac Address");
         }
 //        wait.until(ExpectedConditions.visibilityOf(ipmacToggleBtn));

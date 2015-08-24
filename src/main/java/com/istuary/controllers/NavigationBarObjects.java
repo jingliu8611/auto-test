@@ -42,6 +42,9 @@ public class NavigationBarObjects {
     @FindBy(id = "rule_a_ipmac")
     private WebElement ipMacTab;
 
+    @FindBy(id = "rule_a_whitelist")
+    private WebElement whitelistTab;
+
 //    @FindBy(css = "a[href='/monitor/signature/?tab=policyManagement']")
 //    private WebElement policyManagementTab;
 //
@@ -97,6 +100,15 @@ public class NavigationBarObjects {
         ruleTab.click();
         wait.until(ExpectedConditions.visibilityOf(ipMacTab));
         ipMacTab.click();
+
+    }
+
+    public void goToWhitelist() {
+
+        wait.until(ExpectedConditions.visibilityOf(ruleTab));
+        ruleTab.click();
+        wait.until(ExpectedConditions.visibilityOf(whitelistTab));
+        whitelistTab.click();
 
     }
 

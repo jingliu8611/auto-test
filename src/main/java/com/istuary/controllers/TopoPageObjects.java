@@ -48,7 +48,7 @@ public class TopoPageObjects {
                 wait.until(ExpectedConditions.visibilityOf(monitorTab));
                 break;
             }catch (StaleElementReferenceException e) {
-                System.out.println(e.getMessage());
+                e.printStackTrace();
                 continue;
             }
         }

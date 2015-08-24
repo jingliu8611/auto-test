@@ -2,6 +2,7 @@ package com.istuary.tests;
 
 import com.istuary.controllers.*;
 import com.istuary.utilities.ExcelUtil;
+import com.istuary.utilities.SimulatorUtil;
 import com.istuary.utilities.WebDriverUtil;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -20,6 +21,8 @@ public class SmokeTest {
     ExcelUtil testData;
     int DEFAULT_DELAY = 15;
     String testServerIp;
+    String simulatorIp;
+    String loginURL;
     String browser;
     String topoFilePath;
     String username;
@@ -31,7 +34,9 @@ public class SmokeTest {
     public void initiate() throws Exception {
         testData = new ExcelUtil(
                 "resources//data//data.xls");
-        testServerIp = "https://" + ExcelUtil.readCell("TestServerIp", 1) + "/login";
+        testServerIp = ExcelUtil.readCell("TestServerIp", 1);
+        simulatorIp = ExcelUtil.readCell("SimulatorIp", 1);
+        loginURL = "https://" + testServerIp + "/login";
         browser = ExcelUtil.readCell("Browser", 1);
         topoFilePath = "/resources/data/" + ExcelUtil.readCell("TopoFile", 1);
         username = ExcelUtil.readCell("Username", 1);
@@ -59,7 +64,7 @@ public class SmokeTest {
         String password = ExcelUtil.readCell("Password", 1);
         System.out.println("This is createAdmin");
 //        driver.get("https://10.0.10.63/login");
-        driver.get(testServerIp);
+        driver.get(loginURL);
         LoginPageObjects loginPage = new LoginPageObjects(driver);
         Thread.sleep(3000);
         loginPage.login(username, password);
@@ -87,7 +92,7 @@ public class SmokeTest {
     public void createAdmin() {
 
         System.out.println("This is createAdmin");
-        driver.get(testServerIp);
+        driver.get(loginURL);
         LoginPageObjects loginPage = new LoginPageObjects(driver);
         loginPage.login(username, password);
         DomainPageObjects domainPage = new DomainPageObjects(driver);
@@ -104,7 +109,7 @@ public class SmokeTest {
     public void uploadTopo() {
 
         System.out.println("This is uploadTopo");
-        driver.get(testServerIp);
+        driver.get(loginURL);
         LoginPageObjects loginPage = new LoginPageObjects(driver);
         loginPage.login(adminName, adminPass);
         NavigationBarObjects navigationBar = new NavigationBarObjects(driver);
@@ -131,7 +136,7 @@ public class SmokeTest {
     }
 
     @Test
-    public void deployIPMACBinding () throws InterruptedException {
+    public void deployIPMACBinding () {
 
         System.out.println("This is deployIPMACBinding");
         NavigationBarObjects navigationBar = new NavigationBarObjects(driver);
@@ -141,7 +146,31 @@ public class SmokeTest {
         Assert.assertTrue(navigationBar.isActionSuccess(), "IpMacBindingRule Deployed");
         navigationBar.closeAlert();
 
+    }
+
+    @Test
+    public void deployWhitelist () throws InterruptedException {
+
+        System.out.println("This is deployWhitelist");
+        SimulatorUtil simulator = new SimulatorUtil();
+        NavigationBarObjects navigationBar = new NavigationBarObjects(driver);
+        navigationBar.goToWhitelist();
+        WhitelistPageObjects whitelistPage = new WhitelistPageObjects(driver);
+        whitelistPage.startLearning();
+        Assert.assertTrue(navigationBar.isActionSuccess(), "Learning Started");
+        navigationBar.closeAlert();
+
+        simulator.connectSimulator(simulatorIp,testServerIp);
+        simulator.sendModbusFlowData4(simulatorIp,testServerIp);
+        whitelistPage.finishLearning();
+        Assert.assertTrue(navigationBar.isActionSuccess(), "Learning Stopped");
+        navigationBar.closeAlert();
+        whitelistPage.deployWhitelistRule();
+        Assert.assertTrue(navigationBar.isActionSuccess(), "Whitelist Deployed");
+        navigationBar.closeAlert();
+
         Thread.sleep(3000);
+
     }
 
 }
