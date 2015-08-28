@@ -46,8 +46,9 @@ public class IPMACBindingPageObjects {
         wait.until(ExpectedConditions.visibilityOf(ipMacEditBtn));
         ipMacEditBtn.click();
         wait.until(ExpectedConditions.visibilityOf(macInputBox));
-        if (macInputBox.getText().equals("")) {
-//            macInputBox.sendKeys(testMac);
+        if ("".equals(macInputBox.getAttribute("value"))) {
+            macInputBox.sendKeys(testMac);
+//            macInputBox.getAttribute("value");
             System.out.println("Enter Testing Mac Address");
         }
 //        wait.until(ExpectedConditions.visibilityOf(ipmacToggleBtn));

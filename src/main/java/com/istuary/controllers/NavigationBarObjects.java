@@ -64,8 +64,8 @@ public class NavigationBarObjects {
     @FindBy(xpath = "//li[@id='header_li_logOut']/a[1]")
     private WebElement signOut;
 
-//    @FindBy(className = "alert-success")
-//    public WebElement successAlert;
+    @FindBy(className = "alert-success")
+    public WebElement successAlert;
 
     @FindBy(className = "close")
     public WebElement alertCloseBtn;
@@ -143,7 +143,9 @@ public class NavigationBarObjects {
     public boolean isActionSuccess() {
 
         try {
-            String result = driver.findElement(By.className("alert-success")).getCssValue("display");
+            wait.until(ExpectedConditions.visibilityOf(successAlert));
+//            String result = driver.findElement(By.className("alert-success")).getCssValue("display");
+            String result = successAlert.getCssValue("display");
             if (result.equals("block")) {
                 return true;
             }
